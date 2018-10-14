@@ -5,6 +5,7 @@ HOME = File.expand_path('~')
 DOTFILES = File.dirname(__FILE__)
 
 FILES_TO_LINK = %w[
+  .tmux.conf
   .zshrc 
   .zsh
 ]
