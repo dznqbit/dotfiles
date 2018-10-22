@@ -5,6 +5,7 @@ HOME = File.expand_path('~')
 DOTFILES = File.dirname(__FILE__)
 
 FILES_TO_LINK = %w[
+  .gitconfig
   .tmux.conf
   .vim
   .vimrc
@@ -14,9 +15,17 @@ FILES_TO_LINK = %w[
 
 task :install do
   FILES_TO_LINK.each do |filename|
+    origin = "#{DOTFILES}/#{filename}"
+    destination = "#{HOME}/#{filename}"
+
     print "Installing #{filename.ljust(16)} ... "
-    `ln -s #{DOTFILES}/#{filename} #{HOME}/#{filename}`
-    puts "Done"
+
+    if File.exists?(destination)
+      puts "#{destination.ljust(32)} exists - skipping"
+    else
+      `ln -s #{origin} #{destination}`
+      puts "Done"
+    end
   end
 end
 

@@ -1,0 +1,8 @@
+# This is Git's per-user configuration file.
+[include]
+  path = ~/.gitconfig.local
+
+[alias]
+  co = checkout
+  st = status
+  br = branch
