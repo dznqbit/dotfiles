@@ -6,6 +6,8 @@ DOTFILES = File.dirname(__FILE__)
 
 FILES_TO_LINK = %w[
   .tmux.conf
+  .vim
+  .vimrc
   .zshrc 
   .zsh
 ]
