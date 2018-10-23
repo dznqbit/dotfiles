@@ -1,7 +1,5 @@
 unsetopt correct_all
 
-source ~/.zsh/aliases.zsh
-
 # number of lines kept in history
 export HISTSIZE=1000
 # number of lines saved in the history after logout
@@ -17,8 +15,13 @@ compinit -i
 autoload -U promptinit
 promptinit
 
-# Emacs bindings on console.
-bindkey -e
+
+bindkey -e                                            # Emacs bindings on console.
+bindkey '^[^[[C' emacs-forward-word
+bindkey '^[^[[D' emacs-backward-word
+#bindkey '^[[1;5C' forward-word                        # [Ctrl-RightArrow] - move forward one word
+#bindkey '^[[1;5D' backward-word                       # [Ctrl-LeftArrow] - move backward one word
+
 
 zstyle ':completion::complete:*' use-cache 1
 
@@ -27,8 +30,6 @@ if [[ "$terminfo[colors]" -ge 8 ]]; then
   colors
 fi
 setopt prompt_subst
-
-source ~/.zsh/spectrum.zsh
 
 git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
@@ -39,3 +40,8 @@ PROMPT='%D{%Y.%m.%d} %* %{$FG[110]%}%n@%m %{$FG[170]%}%~%{$FG[192]%}%{$reset_col
 
 # Add fuzzyfinder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Source all files in ~/.zsh
+for file in ~/.zsh/*.zsh; do
+    source "$file"
+done

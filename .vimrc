@@ -119,8 +119,9 @@ set exrc                      " Allow project-specific .vimrc
 set secure                    " Disable unsafe commands in project-specific .vimrc files
 set wildmode=list:longest     " Tab behavior opening files
 
-" Highlight past 80
-let &colorcolumn=join(range(81,999),",")
+
+" let &colorcolumn=join(range(81,999),",") " Highlight past character limit
+let &colorcolumn=join(range(121,999),",") " Highlight past character limit
 
 " remove trailing whitespace
 for ext in ['.rb', '.erb', '.haml', '.scss', '.php']
