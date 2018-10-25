@@ -119,6 +119,8 @@ set exrc                      " Allow project-specific .vimrc
 set secure                    " Disable unsafe commands in project-specific .vimrc files
 set wildmode=list:longest     " Tab behavior opening files
 
+set ttymouse=xterm2           " mouse/tmux
+set mouse=a                   " mouse/tmux, part2
 
 " let &colorcolumn=join(range(81,999),",") " Highlight past character limit
 let &colorcolumn=join(range(121,999),",") " Highlight past character limit
