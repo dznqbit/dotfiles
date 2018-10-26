@@ -33,12 +33,6 @@ Plugin 'itchyny/lightline.vim'
 " Nerdtree : file browser drawer. <C-n> to toggle
 Plugin 'scrooloose/nerdtree.git'
 
-" PHP Syntax Highlighting
-Bundle 'captbaritone/better-indent-support-for-php-with-html'
-
-" PHPQA : Automatically runs
-Bundle 'joonty/vim-phpqa.git'
-
 " Rust : rust syntax, highlighting, etc
 Plugin 'rust-lang/rust.vim'
 
@@ -126,7 +120,7 @@ set mouse=a                   " mouse/tmux, part2
 let &colorcolumn=join(range(121,999),",") " Highlight past character limit
 
 " remove trailing whitespace
-for ext in ['.rb', '.erb', '.haml', '.scss', '.php']
+for ext in ['.rb', '.erb', '.haml', '.scss']
   execute "autocmd BufWritePre *" . ext . " :%s/\\s\\+$//e"
 endfor
 
@@ -141,15 +135,12 @@ noremap <F2> :call SyntasticToggleErrors()<CR>;
 nmap <Leader>rhh :call RubyHashesAll()<CR>
 vmap <Leader>rhh :call RubyHashesSelected()<CR>
 
-" override indents for php/phtml
-autocmd FileType php setlocal shiftwidth=4 tabstop=4
-autocmd FileType phtml setlocal shiftwidth=4 tabstop=4
-
 " Nerdtree
 noremap <C-n> :NERDTreeToggle<CR>
 
 " Ripgrep
 noremap <C-g> :Rg 
+
 
 " *************
 " PLUGIN CONFIG
@@ -160,6 +151,8 @@ let g:closetag_filenames = "*.xml"
 
 " FZF
 noremap <C-f> :Files<CR>
+" Josh's sake
+noremap <C-p> :Files<CR>
 
 " Lightline
 let g:lightline = {
@@ -174,15 +167,6 @@ let g:lightline = {
 \ }
 
 set laststatus=2                       " Fix bug where single mode wouldn't show
-
-" PHPQA https://github.com/joonty/vim-phpqa
-let g:phpqa_messdetector_ruleset="~/.vim/misc/phpmd-ruleset.xml"
-let g:phpqa_codesniffer_args="--standard=Ecg"
-
-let g:phpqa_messdetector_autorun=0     " Disable auto CodeCoverage on save
-let g:phpqa_codesniffer_autorun=0      " Disable auto CodeCoverage on save
-let g:phpqa_codecoverage_autorun=0     " Disable auto CodeCoverage on save
-let g:phpqa_codecoverage_showcovered=0 " Recommended speed boost
 
 " Ripgrep
 let g:rg_highlight=1
@@ -199,10 +183,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0 
 let g:syntastic_check_on_wq = 1
 
-" disable PHP as we prefer PHPQA
-let g:syntastic_php_checkers = [] 
-
-" Update rust to use cargo. This avoids "crate not found" errors.
 " Per https://github.com/rust-lang/rust.vim/issues/130
 let g:syntastic_rust_rustc_exe = 'cargo check'
 let g:syntastic_rust_rustc_fname = ''
@@ -266,12 +246,4 @@ function! SyntasticToggleErrors()
     endif
 endfunction
 
-" Source off AoC
-function! AdventOfCode()
-  set guifont=Source\ Code\ Pro:h16
-endfunction
-function! AdventOfCodeReset()
-  set guifont=Source\ Code\ Pro:h11
-endfunction
-command! Aoc call AdventOfCode()
-command! Aocx call AdventOfCodeReset()
+

@@ -9,6 +9,11 @@ export HISTFILE=~/.zhistory
 # append command to history file once executed
 setopt inc_append_history
 
+# FZF
+# https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+# Needed to play nice with Vim
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+
 autoload -U compinit
 compinit -i
 
