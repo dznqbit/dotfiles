@@ -119,7 +119,11 @@ set mouse=a                   " mouse/tmux, part2
 " let &colorcolumn=join(range(81,999),",") " Highlight past character limit
 let &colorcolumn=join(range(121,999),",") " Highlight past character limit
 
-" remove trailing whitespace
+" Highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=darkgrey guibg=darkgrey
+match ExtraWhitespace /\s\+$/
+
+" auto-remove trailing whitespace
 for ext in ['.rb', '.erb', '.haml', '.scss']
   execute "autocmd BufWritePre *" . ext . " :%s/\\s\\+$//e"
 endfor
@@ -141,7 +145,6 @@ noremap <C-n> :NERDTreeToggle<CR>
 " Ripgrep
 noremap <C-g> :Rg 
 
-
 " *************
 " PLUGIN CONFIG
 " *************
@@ -151,9 +154,7 @@ let g:closetag_filenames = "*.xml"
 
 " FZF
 noremap <C-f> :Files<CR>
-" Josh's sake
-noremap <C-p> :Files<CR>
-
+,
 " Lightline
 let g:lightline = {
   \ 'colorscheme': 'seoul256',
@@ -167,6 +168,15 @@ let g:lightline = {
 \ }
 
 set laststatus=2                       " Fix bug where single mode wouldn't show
+
+" yank to clipboard
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
+endif
 
 " Ripgrep
 let g:rg_highlight=1
@@ -245,5 +255,3 @@ function! SyntasticToggleErrors()
         Errors
     endif
 endfunction
-
-
