@@ -23,7 +23,7 @@ setopt inc_append_history
 # Use ripgrep as fulltext searcher
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 # Rebind C-t to C-f
-bindkey '^F' fzf-file-widget
+bindkey '^f' fzf-file-widget
 
 
 # Autocomplete
