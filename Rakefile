@@ -11,6 +11,7 @@ FILES_TO_LINK = %w[
   .vimrc
   .zshrc 
   .zsh
+  .dzn-scripts
 ]
 
 task :install do

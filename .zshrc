@@ -6,7 +6,7 @@
 #   Alt-C: fzf cd into directory
 #   Ctrl-F: fzf over files
 #   Ctrl-R: fzf over history
-#   Ctrl-T[tmux]: tmux pane manager
+#   Ctrl-T: tmux
 #
 
 unsetopt correct_all
@@ -56,8 +56,9 @@ git_prompt_info() {
 }
 PROMPT='%D{%Y.%m.%d} %* %{$FG[110]%}%n@%m %{$FG[170]%}%~%{$FG[192]%}%{$reset_color%} $(git_prompt_info)%{$reset_color%} %{$FG[113]%}%# %{$reset_color%}'
 
-
 # Source all files in ~/.zsh
 for file in ~/.zsh/*.zsh; do
     source "$file"
 done
+
+export PATH=$PATH:~/.dzn-scripts
