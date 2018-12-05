@@ -16,6 +16,7 @@ export PGUSER=admin
 
 # Cleo aliases
 alias cleo-lint='pipenv run flake8'
+alias cleo-makemigrations="pipenv run python manage.py makemigrations"
 alias cleo-migrate="pipenv run python manage.py migrate"
 alias cleo-server="pipenv run python manage.py runserver"
 alias cleo-shell="pipenv run python manage.py shell"

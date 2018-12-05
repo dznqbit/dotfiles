@@ -61,4 +61,4 @@ for file in ~/.zsh/*.zsh; do
     source "$file"
 done
 
-export PATH=$PATH:~/.dzn-scripts
+export PATH="$HOME/.dzn-scripts:$HOME/.fastlane/bin:$HOME/bin:$PATH"
