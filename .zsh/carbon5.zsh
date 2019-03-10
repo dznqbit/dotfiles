@@ -1,10 +1,11 @@
 # Carbon Five-specific environment settings
 
-# Add Android SDK to $PATH
+# Android
 export ANDROID_SDK=$HOME/Library/Android/sdk
-#
-# required for Cleo-app
-export PATH=$ANDROID_SDK/emulator:$PATH
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools/
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
 
 # Reference Java 8
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_192.jdk/Contents/Home
@@ -14,12 +15,5 @@ export PGPASSWORD=admin
 export PGHOST=localhost
 export PGUSER=admin
 
-# Cleo aliases
-alias cleo-lint='pipenv run flake8'
-alias cleo-makemigrations="pipenv run python manage.py makemigrations"
-alias cleo-migrate="pipenv run python manage.py migrate"
-alias cleo-server="pipenv run python manage.py runserver"
-alias cleo-shell="pipenv run python manage.py shell"
-alias cleo-sql='psql lucy admin'
-alias cleo-test="pipenv run python manage.py test"
-alias cleo-dev="tmux-cleo"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
