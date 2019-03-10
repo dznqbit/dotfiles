@@ -32,6 +32,8 @@ promptinit
 compinit -i
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 
+# Direnv
+eval "$(direnv hook zsh)"
 
 # Emacs movement bindings
 bindkey -e                                             # Emacs bindings on console.
@@ -55,6 +57,10 @@ git_prompt_info() {
   echo "(${ref#refs/heads/})"
 }
 PROMPT='%D{%Y.%m.%d} %* %{$FG[110]%}%n@%m %{$FG[170]%}%~%{$FG[192]%}%{$reset_color%} $(git_prompt_info)%{$reset_color%} %{$FG[113]%}%# %{$reset_color%}'
+
+
+# Ruby
+eval "$(rbenv init -)"
 
 # Source all files in ~/.zsh
 for file in ~/.zsh/*.zsh; do
