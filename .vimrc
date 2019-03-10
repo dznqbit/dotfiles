@@ -16,6 +16,9 @@ Plugin 'alvan/vim-closetag'
 " Deus : Colorscheme
 Plugin 'ajmwagar/vim-deus'
 
+" Solarized : Colorscheme
+Plugin 'altercation/vim-colors-solarized'
+
 " Fugitive : git integration
 Plugin 'tpope/vim-fugitive'
 
@@ -42,8 +45,17 @@ Plugin 'isRuslan/vim-es6'
 " Spec Finder : Rails spec finder
 Plugin 'skwp/vim-spec-finder'
 
+" Swift syntax highlighting
+Plugin 'keith/swift.vim'
+
 " Syntastic : Syntax checker
 Plugin 'vim-syntastic/syntastic'
+
+" Vim-Rails, mostly just for syntax highlighting on .erb
+Plugin 'tpope/vim-rails'
+
+" Coffeescript
+Plugin 'kchmck/vim-coffee-script'
 
 " Run this after updating plugin list:
 "   :PluginInstall
@@ -58,32 +70,14 @@ filetype plugin indent on   " Required by Vundle
 " VANILLA CONFIG
 " **************
 
-" colorscheme angr
 colorscheme deus
-set background=dark
-" colors mayansmoke
+" let g:solarized_termcolors=256
+" colorscheme solarized
+" set background=light
 
-set guifont=Source\ Code\ Pro:h11
 let mapleader=","
 
-if has("gui_macvim")
-  " Tab for autocomplete
-  inoremap <tab> <c-r>=Smart_TabComplete()<CR>
- 
-  macmenu File.Open\ Tab\.\.\. key=<nop>
-  macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
-  macmenu &File.New\ Tab key=<D-T>
-
-  " Cmd-# on Mac and Alt-# elsewhere to switch tabs
-  for n in range(10)
-       let k = n == "0" ? "10" : n
-       for m in ["D", "A"]
-           exec printf("imap <silent> <%s-%s> <Esc>%sgt", m, n, k)
-           exec printf("map <silent> <%s-%s> %sgt", m, n, k)
-       endfor
-  endfor
-end
-
+set guifont=Source\ Code\ Pro:h11
 set history=1000              " Remember commands and search history
 set showcmd                   " show incomplete cmds down the bottom
 set showmode                  " show current mode down the bottom
@@ -116,7 +110,6 @@ set wildmode=list:longest     " Tab behavior opening files
 set ttymouse=xterm2           " mouse/tmux
 set mouse=a                   " mouse/tmux, part2
 
-" let &colorcolumn=join(range(81,999),",") " Highlight past character limit
 let &colorcolumn=join(range(121,999),",") " Highlight past character limit
 
 " Highlight trailing whitespace
@@ -143,7 +136,7 @@ vmap <Leader>rhh :call RubyHashesSelected()<CR>
 noremap <C-n> :NERDTreeToggle<CR>
 
 " Ripgrep
-noremap <C-g> :Rg 
+noremap <C-g> :Rg
 
 " *************
 " PLUGIN CONFIG
@@ -181,7 +174,6 @@ endif
 " Ripgrep
 let g:rg_highlight=1
 
-" TODO: Bind F2 to messdetector and codesniffer
 " Syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
