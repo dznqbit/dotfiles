@@ -17,3 +17,15 @@ export PGUSER=admin
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Babylon
+vault-login() {
+  VAULT_ADDR="$(yq -y ".regions | map(select(.name == \"$1\") .vault)" < ${SHIPCAT_MANIFEST_DIR}/shipcat.conf | yq '.[0].url' -r)"
+  export VAULT_ADDR
+  if [[ $VAULT_ADDR = "https://vault.babylontech.co.uk:8200" ]]; then
+    export VAULT_TOKEN=${BABYLON_LEGACY_VAULT_TOKEN}
+  else
+    unset VAULT_TOKEN
+    vault login -method=github token="${BABYLON_GITHUB_PAT}"
+  fi
+}

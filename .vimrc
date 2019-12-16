@@ -129,8 +129,12 @@ set wildmode=list:longest     " Tab behavior opening files
 " Highlight past 80
 let &colorcolumn=join(range(81,999),",")
 
-" remove trailing whitespace
-for ext in ['.rb', '.erb', '.haml', '.scss', '.php']
+" Highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=lightgrey guibg=lightgrey
+match ExtraWhitespace /\s\+$/
+
+" auto-remove trailing whitespace
+for ext in ['.rb', '.erb', '.haml', '.scss']
   execute "autocmd BufWritePre *" . ext . " :%s/\\s\\+$//e"
 endfor
 
@@ -150,6 +154,9 @@ noremap <C-n> :NERDTreeToggle<CR>
 " Ripgrep
 noremap <C-g> :Rg 
 
+" FZF
+noremap <C-f> :Files<CR>
+
 " *************
 " PLUGIN CONFIG
 " *************
@@ -162,9 +169,6 @@ let g:ale_lint_on_insert_leave = 0
 
 " Closetag
 let g:closetag_filenames = "*.xml"
-
-" FZF
-noremap <C-f> :Files<CR>
 
 " Lightline
 let g:lightline = {
