@@ -9,7 +9,7 @@ FILES_TO_LINK = %w[
   .tmux.conf
   .vim
   .vimrc
-  .zshrc 
+  .zshrc
   .zsh
   .dzn-scripts
 ]

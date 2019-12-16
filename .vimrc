@@ -1,3 +1,15 @@
+"
+" dznqbit .vimrc
+"
+" key bindings cheat sheet:
+"
+"   C-e: Viewport Down
+"   C-f: Fuzzy file finder
+"   C-n: NERDtree
+"   C-y: Viewport Up
+"
+"
+
 " *************
 " VUNDLE
 " *************
@@ -10,14 +22,11 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+" ALE asynchronous linter
+Plugin 'dense-analysis/ale'
+
 " Closetag : Auto-close xml tags
 Plugin 'alvan/vim-closetag'
-
-" Deus : Colorscheme
-Plugin 'ajmwagar/vim-deus'
-
-" Solarized : Colorscheme
-Plugin 'altercation/vim-colors-solarized'
 
 " Fugitive : git integration
 Plugin 'tpope/vim-fugitive'
@@ -26,6 +35,8 @@ Plugin 'tpope/vim-fugitive'
 " https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
 set rtp+=/usr/local/opt/fzf
 Plugin 'junegunn/fzf.vim'
+
+Plugin 'ajmwagar/vim-deus'
 
 " Ripgrep: adds the :Rg command
 Plugin 'jremmen/vim-ripgrep'
@@ -45,17 +56,8 @@ Plugin 'isRuslan/vim-es6'
 " Spec Finder : Rails spec finder
 Plugin 'skwp/vim-spec-finder'
 
-" Swift syntax highlighting
+" Swift
 Plugin 'keith/swift.vim'
-
-" Syntastic : Syntax checker
-Plugin 'vim-syntastic/syntastic'
-
-" Vim-Rails, mostly just for syntax highlighting on .erb
-Plugin 'tpope/vim-rails'
-
-" Coffeescript
-Plugin 'kchmck/vim-coffee-script'
 
 " Run this after updating plugin list:
 "   :PluginInstall
@@ -71,13 +73,29 @@ filetype plugin indent on   " Required by Vundle
 " **************
 
 colorscheme deus
-" let g:solarized_termcolors=256
-" colorscheme solarized
-" set background=light
-
-let mapleader=","
+set background=dark
 
 set guifont=Source\ Code\ Pro:h11
+let mapleader=","
+
+if has("gui_macvim")
+  " Tab for autocomplete
+  inoremap <tab> <c-r>=Smart_TabComplete()<CR>
+ 
+  macmenu File.Open\ Tab\.\.\. key=<nop>
+  macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
+  macmenu &File.New\ Tab key=<D-T>
+
+  " Cmd-# on Mac and Alt-# elsewhere to switch tabs
+  for n in range(10)
+       let k = n == "0" ? "10" : n
+       for m in ["D", "A"]
+           exec printf("imap <silent> <%s-%s> <Esc>%sgt", m, n, k)
+           exec printf("map <silent> <%s-%s> %sgt", m, n, k)
+       endfor
+  endfor
+end
+
 set history=1000              " Remember commands and search history
 set showcmd                   " show incomplete cmds down the bottom
 set showmode                  " show current mode down the bottom
@@ -107,17 +125,11 @@ set exrc                      " Allow project-specific .vimrc
 set secure                    " Disable unsafe commands in project-specific .vimrc files
 set wildmode=list:longest     " Tab behavior opening files
 
-set ttymouse=xterm2           " mouse/tmux
-set mouse=a                   " mouse/tmux, part2
+" Highlight past 80
+let &colorcolumn=join(range(81,999),",")
 
-let &colorcolumn=join(range(121,999),",") " Highlight past character limit
-
-" Highlight trailing whitespace
-highlight ExtraWhitespace ctermbg=darkgrey guibg=darkgrey
-match ExtraWhitespace /\s\+$/
-
-" auto-remove trailing whitespace
-for ext in ['.rb', '.erb', '.haml', '.scss']
+" remove trailing whitespace
+for ext in ['.rb', '.erb', '.haml', '.scss', '.php']
   execute "autocmd BufWritePre *" . ext . " :%s/\\s\\+$//e"
 endfor
 
@@ -126,8 +138,7 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-noremap <F1> :SyntasticCheck<CR>;
-noremap <F2> :call SyntasticToggleErrors()<CR>;
+noremap <F1> :ALEFix<CR>;
 
 nmap <Leader>rhh :call RubyHashesAll()<CR>
 vmap <Leader>rhh :call RubyHashesSelected()<CR>
@@ -136,18 +147,24 @@ vmap <Leader>rhh :call RubyHashesSelected()<CR>
 noremap <C-n> :NERDTreeToggle<CR>
 
 " Ripgrep
-noremap <C-g> :Rg
+noremap <C-g> :Rg 
 
 " *************
 " PLUGIN CONFIG
 " *************
+
+" ALE
+let b:ale_linters = ['eslint', 'prettier']
+let b:ale_fixers = ['eslint', 'prettier']
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
 
 " Closetag
 let g:closetag_filenames = "*.xml"
 
 " FZF
 noremap <C-f> :Files<CR>
-,
+
 " Lightline
 let g:lightline = {
   \ 'colorscheme': 'seoul256',
@@ -162,29 +179,10 @@ let g:lightline = {
 
 set laststatus=2                       " Fix bug where single mode wouldn't show
 
-" yank to clipboard
-if has("clipboard")
-  set clipboard=unnamed " copy to the system clipboard
-
-  if has("unnamedplus") " X11 support
-    set clipboard+=unnamedplus
-  endif
-endif
-
 " Ripgrep
 let g:rg_highlight=1
 
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-" Defaults recommended by the README
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0 
-let g:syntastic_check_on_wq = 1
-
+" Update rust to use cargo. This avoids "crate not found" errors.
 " Per https://github.com/rust-lang/rust.vim/issues/130
 let g:syntastic_rust_rustc_exe = 'cargo check'
 let g:syntastic_rust_rustc_fname = ''
@@ -196,11 +194,6 @@ let g:syntastic_mode_map = {
   \ "active_filetypes": ["rust"],
   \ "passive_filetypes": []
 \ }
-
-" Throw Syntastic into passive mode.
-if has("gui_macvim")
-  call SyntasticToggleMode()
-end
 
 " *************
 " LIBRARY
@@ -238,12 +231,12 @@ return "\<C-X>\<C-O>"                       " plugin matching
 endif
 endfunction
 
-" Close, or Open the errors window for Syntastic.
-function! SyntasticToggleErrors()
-    let old_last_winnr = winnr('$')
-    lclose
-    if old_last_winnr == winnr('$')
-        " Nothing was closed, open syntastic error location panel
-        Errors
-    endif
+" Source off AoC
+function! AdventOfCode()
+  set guifont=Source\ Code\ Pro:h16
 endfunction
+function! AdventOfCodeReset()
+  set guifont=Source\ Code\ Pro:h11
+endfunction
+command! Aoc call AdventOfCode()
+command! Aocx call AdventOfCodeReset()
