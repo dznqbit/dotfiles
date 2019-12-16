@@ -51,7 +51,8 @@ Plugin 'scrooloose/nerdtree.git'
 Plugin 'rust-lang/rust.vim'
 
 " Javascript/ES6 sytax, highlighting, etc.
-Plugin 'isRuslan/vim-es6'
+Plugin 'yuezk/vim-js'
+Plugin 'maxmellon/vim-jsx-pretty'
 
 " Spec Finder : Rails spec finder
 Plugin 'skwp/vim-spec-finder'
@@ -138,7 +139,7 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-noremap <F1> :ALEFix<CR>;
+noremap <F1> :ALEFix<CR>
 
 nmap <Leader>rhh :call RubyHashesAll()<CR>
 vmap <Leader>rhh :call RubyHashesSelected()<CR>
