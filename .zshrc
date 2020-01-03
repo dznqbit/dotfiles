@@ -63,8 +63,8 @@ PROMPT='%D{%Y.%m.%d} %* %{$FG[110]%}%n@%m %{$FG[170]%}%~%{$FG[192]%}%{$reset_col
 eval "$(rbenv init -)"
 
 # Source all files in ~/.zsh
-for file in ~/.zsh/*.zsh; do
+for file in ~/.zsh/**/*.zsh; do
     source "$file"
 done
 
-export PATH="$HOME/.dzn-scripts:$HOME/.fastlane/bin:$HOME/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
